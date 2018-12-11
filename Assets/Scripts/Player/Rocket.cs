@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-    private float _rocketSpeed = 10f;
-
     private float _selfDestructTimerCurrentValue = 0f;
     private float _selfDestructTimerDefaultValue = 10f;
 
@@ -19,7 +17,7 @@ public class Rocket : MonoBehaviour
 
         if (_launched)
         {
-            transform.position += transform.forward * _rocketSpeed * Time.deltaTime;
+            transform.position += transform.forward * GameManager.FireSpeed * Time.deltaTime;
         }
     }
 

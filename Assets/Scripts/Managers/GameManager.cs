@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         private set { _instance._rotationSpeed = value; }
     }
 
-    [SerializeField] private float _fireSpeed = 2f;
+    [SerializeField] private float _fireSpeed = 10f;
     public static float FireSpeed
     {
         get { return _instance._fireSpeed; }
@@ -31,6 +31,13 @@ public class GameManager : MonoBehaviour
     {
         get { return _instance._fireDamage; }
         set { _instance._fireDamage = value; }
+    }
+
+    [SerializeField] private float _fireRate = 2f;
+    public static float FireRate
+    {
+        get { return _instance._fireRate; }
+        set { _instance._fireRate = value; }
     }
 
     [SerializeField] private float _enemySpeed = 1f;
