@@ -29,7 +29,7 @@ public class TankControl : MonoBehaviour
     {
         if (_shootLocked)
         {
-            if (_shootTimerCurrentValue <= 1f / GameManager.FireSpeed)
+            if (_shootTimerCurrentValue <= 1f / GameManager.FireRate)
             {
                 _shootTimerCurrentValue += Time.deltaTime;
             }
