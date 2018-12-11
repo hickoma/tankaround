@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Lean.Touch;
 
 public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
 
-    public static event Action MoveLeft = delegate { };
-    public static event Action MoveRight = delegate { };
+    public static event Action<float> MoveLeft = delegate { };
+    public static event Action<float> MoveRight = delegate { };
     public static event Action Shoot = delegate { };
+
+    public LeanScreenDepth ScreenDepth;
 
     private void Awake()
     {
@@ -20,32 +23,38 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            MoveLeft();
+            MoveLeft(1);
             Shoot();
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            MoveRight();
+            MoveRight(1);
             Shoot();
         }
         if (Input.GetKey(KeyCode.Space))
         {
             Shoot();
         }
+    }
 
-        if (Input.GetMouseButton(0))
+    protected virtual void LateUpdate()
+    {
+        var fingers = LeanTouch.GetFingers(false, false, 1);
+        if (fingers.Count < 1) return;
+
+        var lastScreenPoint = LeanGesture.GetLastScreenCenter(fingers);
+        var screenPoint = LeanGesture.GetScreenCenter(fingers);
+
+        var worldDelta = lastScreenPoint - screenPoint;
+
+        if (worldDelta.x < 0)
         {
-            if (Input.GetAxis("Mouse X") > 0.1f)
-            {
-                MoveRight();
-                Shoot();
-            }
-            else if(Input.GetAxis("Mouse X") < -0.1f)
-            {
-                MoveLeft();
-                Shoot();
-            }
-            else Shoot();
+            MoveLeft(Mathf.Abs(worldDelta.x));
         }
+        else if (worldDelta.x > 0)
+        {
+            MoveRight(Mathf.Abs(worldDelta.x));
+        }
+        Shoot();
     }
 }

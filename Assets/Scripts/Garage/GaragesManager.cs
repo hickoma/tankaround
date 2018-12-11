@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Side
+{
+    None,
+    Left,
+    Right
+}
+
 public class GaragesManager : MonoBehaviour
 { 
     private static GaragesManager _instance;
@@ -20,6 +27,10 @@ public class GaragesManager : MonoBehaviour
     private float _enemySpawnTimerValue = 4f;
     private float _enemySpawnTimerMinValue = 2f;
     private float _enemySpawnTimerMaxValue = 4f;
+
+    [SerializeField] private GameObject _enemyArrowPrefab;
+    [SerializeField] private Transform _leftEnemyArrowsContainer;
+    [SerializeField] private Transform _rightEnemyArrowsContainer;
 
     private void Awake()
     {
@@ -42,6 +53,29 @@ public class GaragesManager : MonoBehaviour
             Garages[Random.Range(0,Garages.Length)].SpawnEnemy();
             ResetTimer();
         }
+    }
+
+    public static GameObject SpawnEnemyArrow(Side side)
+    {
+        GameObject instantiatedArrow;
+
+        switch (side)
+        {
+            case Side.Left:
+                instantiatedArrow = Instantiate(_instance._enemyArrowPrefab, _instance._leftEnemyArrowsContainer);
+                instantiatedArrow.transform.localScale = new Vector3(-1, 1, 1);
+                break;
+            case Side.Right:
+                instantiatedArrow = Instantiate(_instance._enemyArrowPrefab, _instance._rightEnemyArrowsContainer);
+                instantiatedArrow.transform.localScale = new Vector3(1, 1, 1);
+                break;
+            default:
+                instantiatedArrow = Instantiate(_instance._enemyArrowPrefab, _instance._rightEnemyArrowsContainer);
+                instantiatedArrow.transform.localScale = new Vector3(1, 1, 1);
+                break;
+        }
+
+        return instantiatedArrow;
     }
 
     private void ResetTimer()

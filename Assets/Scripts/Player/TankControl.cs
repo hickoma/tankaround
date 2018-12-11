@@ -42,19 +42,19 @@ public class TankControl : MonoBehaviour
 
     }
 
-    private void MoveRight()
+    private void MoveRight(float value)
     {
         var tankRotation = transform.rotation;
         tankRotation.eulerAngles = new Vector3(tankRotation.eulerAngles.x,
-            tankRotation.eulerAngles.y + GameManager.RotationSpeed * Time.deltaTime, tankRotation.eulerAngles.z);
+            tankRotation.eulerAngles.y + value * GameManager.RotationSpeed * Time.deltaTime, tankRotation.eulerAngles.z);
         transform.rotation = tankRotation;
     }
 
-    private void MoveLeft()
+    private void MoveLeft(float value)
     {
         var tankRotation = transform.rotation;
         tankRotation.eulerAngles = new Vector3(tankRotation.eulerAngles.x,
-            tankRotation.eulerAngles.y - GameManager.RotationSpeed * Time.deltaTime, tankRotation.eulerAngles.z);
+            tankRotation.eulerAngles.y - value * GameManager.RotationSpeed * Time.deltaTime, tankRotation.eulerAngles.z);
         transform.rotation = tankRotation;
     }
 
